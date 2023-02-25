@@ -22,7 +22,6 @@ import android.os.Build;
 import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.provider.Settings.Secure;
-import android.text.TextUtils;
 import android.util.Log;
 
 import java.lang.reflect.Field;
@@ -92,17 +91,15 @@ public class GamesPropsUtils extends PixelPropsUtils {
         ).forEach((k, v) -> k.forEach(p -> sPackagesModelMap.put(p, v)));
     }
 
-    public static void setProps(Context context) {
-        final String packageName = context.getPackageName();
+    public static void setProps(String packageName, Context context) {
 
-        if (TextUtils.isEmpty(packageName)) {
+        if (packageName == null || packageName.isEmpty()) {
             return;
         }
 
         if (sPackagesModelMap.containsKey(packageName) && Secure.getInt(
                 context.getContentResolver(), Secure.GAMES_DEVICE_SPOOF, 0) == 1) {
             String model = sPackagesModelMap.get(packageName);
-            dlog("Spoofing model to " + model + " for package " + packageName);
             setPropValue("MODEL", model);
         }
     }
