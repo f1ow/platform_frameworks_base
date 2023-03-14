@@ -560,6 +560,8 @@ public final class ActivityRecord extends WindowToken implements WindowManagerSe
 
     Drawable mEnterpriseThumbnailDrawable;
 
+    boolean mPauseSchedulePendingForPip = false;
+
     private void updateEnterpriseThumbnailDrawable(Context context) {
         DevicePolicyManager dpm = context.getSystemService(DevicePolicyManager.class);
         mEnterpriseThumbnailDrawable = dpm.getResources().getDrawable(
@@ -1718,7 +1720,7 @@ public final class ActivityRecord extends WindowToken implements WindowManagerSe
                 : null;
     }
 
-    private void clearLastParentBeforePip() {
+    void clearLastParentBeforePip() {
         if (mLastParentBeforePip != null) {
             mLastParentBeforePip.mChildPipActivity = null;
             mLastParentBeforePip = null;
